@@ -118,9 +118,18 @@ skillpath/
 ```
 
 ## Screenshots
+![Skill directory](screenshot-directory.png)
+*The skill directory, browsable by category.*
 
-_Add screenshots of the running app here before submitting: the skill directory, a selected skill's trail, and the "plan your next move" recommendation panel._
+![Prerequisite trail](screenshot-trail.png)
+*Tracing the full 9-step trail behind "Transformers & LLMs" back to its foundational skills.*
+
+![Recommend next skills](screenshot-recommend.png)
+*Checking off known skills surfaces exactly what's unlocked next.*
 
 ## Demo
 
-_Add your hosted deployment link and a short screen recording link here before submitting._
+**Live app:** https://skillpath-b42s.onrender.com
+_(Free-tier hosting — the first request after inactivity may take 20–30 seconds to wake up.)_
+
+**Screen recording:** https://drive.google.com/file/d/1zlRApWrwBkhw11_zUsxTZDmRUosBQBjG/view?usp=sharing
