@@ -1,6 +1,6 @@
 # SkillPath
 
-A small web app for tracing the exact route of prerequisites behind any skill — and figuring out what to learn next — backed by **CognoDB**, a managed graph database, via the official Neo4j driver.
+A small web app for tracing the exact route of prerequisites behind any skill — and figuring out what to learn next — backed by **CognoDB**, a managed graph database, via the official Neo4j Python driver.
 
 ## The use case
 
@@ -62,18 +62,20 @@ cp .env.example .env
 
 ### 3. Install, seed, run
 ```bash
-npm install
-npm run seed    # loads the skill/course graph into your CognoDB instance
-npm start        # serves the app at http://localhost:3000
+python -m venv .venv
+source .venv/bin/activate   # on Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python seed.py               # loads the skill/course graph into your CognoDB instance
+python app.py                 # serves the app at http://localhost:3000
 ```
 
 Visit `http://localhost:3000`. The status dot in the top bar shows whether the app can currently reach CognoDB.
 
 ## The main queries
 
-All queries are parameterized through the official `neo4j-driver` package — no string-concatenated Cypher anywhere in the codebase (`server.js`, `seed.js`).
+All queries are parameterized through the official `neo4j` Python driver — no string-concatenated Cypher anywhere in the codebase (`app.py`, `seed.py`).
 
-**Multi-hop prerequisite trail** (`GET /api/skills/:id/trail`) — walks 1 to 6 `REQUIRES` hops from the target skill out to its root prerequisites:
+**Multi-hop prerequisite trail** (`GET /api/skills/<id>/trail`) — walks 1 to 6 `REQUIRES` hops from the target skill out to its root prerequisites:
 ```cypher
 MATCH path = (target:Skill {id: $id})-[:REQUIRES*0..6]->(ancestor:Skill)
 WITH ancestor, length(path) AS depth
@@ -95,7 +97,7 @@ RETURN s.id, s.name, s.category, s.level
 ## Engineering notes
 
 - `NEO4J_URI` / `NEO4J_USER` / `NEO4J_PASSWORD` are read from environment variables only (`.env`, git-ignored) — never committed.
-- `db.js` centralizes the driver and session handling; every route closes its session in a `finally` block.
+- `db.py` centralizes the driver and session handling; every route uses `with driver.session()` so sessions always close, even on error.
 - If CognoDB is unreachable, every API route returns a `503` with a clear JSON error instead of crashing or hanging — the UI surfaces this as a status dot and inline error banners rather than a blank screen.
 - The skill list and skill-detail views have explicit loading (skeletons), empty (no results / no courses), and error states.
 
@@ -103,13 +105,14 @@ RETURN s.id, s.name, s.category, s.level
 
 ```
 skillpath/
-├── server.js         # Express app + API routes
-├── db.js             # CognoDB driver + query helper
-├── seed.js           # Loads skill/course graph data
+├── app.py             # Flask app + API routes
+├── db.py              # CognoDB driver + query helper
+├── seed.py            # Loads skill/course graph data
 ├── public/
 │   ├── index.html
 │   ├── style.css
 │   └── app.js
+├── requirements.txt
 ├── .env.example
 └── README.md
 ```
