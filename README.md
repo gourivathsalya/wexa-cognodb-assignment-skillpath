@@ -118,13 +118,13 @@ skillpath/
 ```
 
 ## Screenshots
-![Skill directory](screenshot-directory.png)
+![Skill directory](Screenshot-directory.png)
 *The skill directory, browsable by category.*
 
-![Prerequisite trail](screenshot-trail.png)
+![Prerequisite trail](Screenshot-trail.png)
 *Tracing the full 9-step trail behind "Transformers & LLMs" back to its foundational skills.*
 
-![Recommend next skills](screenshot-recommend.png)
+![Recommend next skills](Screenshot-recommended.png)
 *Checking off known skills surfaces exactly what's unlocked next.*
 
 ## Demo
