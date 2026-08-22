@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SkillPath — Trace the route to any skill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wordmark">
+      <span class="wordmark-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <circle cx="4" cy="18" r="2.4" fill="#4FD1C5"/>
+          <circle cx="11" cy="10" r="2.4" fill="#4FD1C5"/>
+          <circle cx="18" cy="4" r="2.4" fill="#E8A33D"/>
+          <path d="M6 16.4 L9 11.6 M13 8.4 L16 5.6" stroke="#4FD1C5" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <div>
+        <div class="wordmark-title">SkillPath</div>
+        <div class="wordmark-tag">Graph‑powered routes through skills and courses</div>
+      </div>
+    </div>
+    <div class="db-status" id="db-status">
+      <span class="dot" id="db-dot"></span>
+      <span id="db-status-text">Checking database…</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Left: skill directory -->
+    <section class="panel directory" aria-label="Skill directory">
+      <div class="panel-head">
+        <h2>Skill Directory</h2>
+        <input id="skill-search" type="search" placeholder="Search skills…" aria-label="Search skills" />
+      </div>
+      <div id="skill-list" class="skill-list" aria-live="polite">
+        <div class="skeleton-list">
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: trail detail -->
+    <section class="panel detail" aria-label="Prerequisite trail">
+      <div id="detail-empty" class="empty-state">
+        <div class="empty-icon">🧭</div>
+        <h3>Pick a skill to trace its trail</h3>
+        <p>Select any skill on the left to see the exact route of prerequisites that leads to it, and the courses that teach each stop.</p>
+      </div>
+
+      <div id="detail-content" class="detail-content" hidden>
+        <div class="detail-head">
+          <span class="chip" id="detail-category"></span>
+          <h2 id="detail-name"></h2>
+        </div>
+
+        <h3 class="section-label">Prerequisite trail</h3>
+        <ol id="trail-list" class="trail"></ol>
+
+        <h3 class="section-label">Courses that teach this skill</h3>
+        <div id="course-list" class="course-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <section class="panel planner" aria-label="Route planner">
+    <div class="panel-head">
+      <h2>Plan your next move</h2>
+      <p class="muted">Tick every skill you already have. SkillPath will find what you're ready to learn next — skills where every prerequisite is already checked off.</p>
+    </div>
+    <div id="known-list" class="known-list"></div>
+    <button id="recommend-btn" class="btn-primary">Find what to learn next</button>
+    <div id="recommend-results" class="recommend-results" aria-live="polite"></div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
